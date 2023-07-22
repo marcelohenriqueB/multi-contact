@@ -51,13 +51,12 @@
                             </tr>
                         </thead>
                         <tbody>
-
+                            
                             @foreach ($person -> contacts  as $contact)
                                 <tr>
-                                    <th scope="row">{{ $person ->id }}</th>
-                                    <td>{{ $person -> country_code}}</td>
-                                    <td>{{ $person ->email}}</td>
-
+                                    <th scope="row">{{ $contact ->id }}</th>
+                                    <td>{{ $contact -> country_code}}</td>
+                                    
                                     <td>
                                         <form action="{{route('people.destroy',['person' => $person -> id])}}" method="POST">
                                             @csrf
@@ -77,12 +76,12 @@
 
                         </tbody>
                     </table>
-
+                    <a href="{{route('contacts.create',['person' => $person -> id])}}">
+                        add contact
+                    </a>
                 </div>
 
             </div>
-
-        
         </div>
     </div>
 @endsection

@@ -15,6 +15,7 @@ class Contact extends Model
     protected $fillable = [
       'number',
       'country_code',
+      'people_id'
     ];
     
 
