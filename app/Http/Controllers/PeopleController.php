@@ -72,17 +72,36 @@ class PeopleController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(People $people)
+    public function edit(People $person): View
     {
         //
+
+        return View('people.edit',[
+            'person' => $person
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, People $people)
+    public function update(Request $request, People $person)
     {
         //
+        $rules = [
+            'email' => 'required|email',
+            'name' => 'required',
+        ];
+    
+        $validatedData = $request->validate($rules);
+
+        if (!$validatedData) {
+            return redirect()->back()->withErrors($validatedData)->withInput();
+        } 
+        
+        $person -> update($request ->all());
+       
+        return redirect()->route('people.edit', ['person' => $person -> id]) -> with(['success' => 'edit successfully']);
+
     }
 
     /**

@@ -18,6 +18,7 @@
                                     <th scope="col">ID</th>
                                     <th scope="col">Name</th>
                                     <th scope="col">email</th>
+                                    <th scope="col">Edit</th>
                                     <th scope="col">Delete</th>
                                     <th scope="col">detail</th>
                                 </tr>
@@ -29,6 +30,11 @@
                                         <th scope="row">{{ $person ->id }}</th>
                                         <td>{{ $person ->name}}</td>
                                         <td>{{ $person ->email}}</td>
+
+                                        <th scope="col">
+                                            <a class=" btn btn-warning" href="{{route('people.edit',$person -> id)}}">edit</a>
+                                        </th>
+
                                         <td>
                                             <form action="{{route('people.destroy',['person' => $person -> id])}}" method="POST">
                                                 @csrf
@@ -38,7 +44,7 @@
                                         </td>
 
                                         <td>
-                                            <a class="btn btn-warning " href="{{route('people.show',['person' => $person -> id ])}}">detail</a>
+                                            <a class="btn btn-success " href="{{route('people.show',['person' => $person -> id ])}}">detail</a>
                                         </td>
                                     </tr>
                                 @endforeach

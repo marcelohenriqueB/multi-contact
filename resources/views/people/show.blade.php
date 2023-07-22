@@ -4,9 +4,6 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-8">
-                <div class="text-end mb-2">
-                    <a href="{{ route('people.create') }}" class="btn btn-success"></a>
-                </div>
 
                 <div class="card">
                     <div class="card-header">detail of the person</div>
@@ -47,9 +44,10 @@
                             <tr>
                                 <th scope="col">ID</th>
                                 <th scope="col">Name</th>
-                                <th scope="col">email</th>
+                                <th scope="col">Email</th>
                                 <th scope="col">Delete</th>
-                                <th scope="col">detail</th>
+                                <th scope="col">Edit</th>
+                                <th scope="col">Detail</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -57,8 +55,9 @@
                             @foreach ($person -> contacts  as $contact)
                                 <tr>
                                     <th scope="row">{{ $person ->id }}</th>
-                                    <td>{{ $person ->name}}</td>
+                                    <td>{{ $person -> country_code}}</td>
                                     <td>{{ $person ->email}}</td>
+
                                     <td>
                                         <form action="{{route('people.destroy',['person' => $person -> id])}}" method="POST">
                                             @csrf
@@ -66,9 +65,12 @@
                                             <button type="submit" onclick="return confirm('Are you sure you want to delete?')" class="btn btn-danger">delete</button>
                                         </form>
                                     </td>
+                                    <th scope="col">
+                                        <a class=" btn btn-warning" href="{{route('people.edit',$person -> id)}}">edit</a>
+                                    </th>
 
                                     <td>
-                                        <a class="btn btn-warning " href="{{route('people.show',['person' => $person -> id ])}}">detail</a>
+                                        <a class="btn btn-success " href="{{route('people.show',['person' => $person -> id ])}}">detail</a>
                                     </td>
                                 </tr>
                             @endforeach
