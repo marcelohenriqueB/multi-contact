@@ -81,24 +81,66 @@ class ContactController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Contact $contact)
+    public function edit(People $person, Contact $contact ): View
     {
-        //
+    
+        return View('contacts.edit',[
+            'person' => $person,
+            'contact' => $contact
+        ]);
+
+        
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Contact $contact)
+    public function update(Request $request,People $person, Contact $contact)
     {
         //
+
+        $rules = [
+            'country_code' => 'required|max:5',
+            'number' => 'required|size:9',
+        ];
+        
+        
+        
+        $validatedData = $request->validate($rules);
+
+
+        if (!$validatedData) {
+            return redirect()->back()->withErrors($validatedData)->withInput();
+        } 
+        $contacts_very =  Contact::where(
+            [
+                'country_code' => $request -> country_code,
+                'number' => $request ->number, 
+                'people_id' =>  $person ->id
+            ]
+        )->first();
+
+        if ($contacts_very){
+            if(!($contacts_very ->id == $contact ->id)){
+                return redirect()->back()->withErrors(['duplicate contact'])->withInput();
+            }  
+        }
+        
+        $contact -> update($request -> all());
+    
+        return redirect()->route('contacts.edit', ['person' => $person -> id,'contact' => $contact ->id]) -> with(['success' => 'Updated successfully']);
+
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Contact $contact)
+    public function destroy(People $person, Contact $contact)
     {
         //
+        $contact ->status = false;
+        $contact ->save();
+        return redirect()->route('people.show', ['person' => $person -> id]) -> with(['success' => 'Deleted successfully']);
+
     }
 }

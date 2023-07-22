@@ -107,8 +107,13 @@ class PeopleController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(People $people)
+    public function destroy(People $person)
     {
         //
+        $person -> status = false;
+        $person ->save();
+        
+        return redirect()->route('people.index') -> with(['success' => 'Deleted successfully']);
+
     }
 }
